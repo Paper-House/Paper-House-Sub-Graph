@@ -75,20 +75,24 @@ export class Funding__Params {
     this._event = event;
   }
 
-  get _from(): Address {
+  get from(): Address {
     return this._event.parameters[0].value.toAddress();
   }
 
-  get _to(): Address {
+  get to(): Address {
     return this._event.parameters[1].value.toAddress();
   }
 
-  get value(): BigInt {
+  get amount(): BigInt {
     return this._event.parameters[2].value.toBigInt();
   }
 
-  get _paperid(): BigInt {
+  get paperid(): BigInt {
     return this._event.parameters[3].value.toBigInt();
+  }
+
+  get totalAmountFunded(): BigInt {
+    return this._event.parameters[4].value.toBigInt();
   }
 }
 
@@ -105,7 +109,7 @@ export class Published__Params {
     this._event = event;
   }
 
-  get _paperid(): BigInt {
+  get tokenId(): BigInt {
     return this._event.parameters[0].value.toBigInt();
   }
 
@@ -117,11 +121,11 @@ export class Published__Params {
     return this._event.parameters[2].value.toString();
   }
 
-  get authorAddress(): Address {
+  get owner(): Address {
     return this._event.parameters[3].value.toAddress();
   }
 
-  get isFunding(): boolean {
+  get allowFunding(): boolean {
     return this._event.parameters[4].value.toBoolean();
   }
 
@@ -169,7 +173,7 @@ export class UpdatePaper__Params {
     this._event = event;
   }
 
-  get _paperid(): BigInt {
+  get paperid(): BigInt {
     return this._event.parameters[0].value.toBigInt();
   }
 
@@ -211,20 +215,22 @@ export class Contract__donationsResult {
 }
 
 export class Contract__papersResult {
-  value0: Address;
-  value1: string;
-  value2: BigInt;
-  value3: boolean;
-  value4: BigInt;
+  value0: BigInt;
+  value1: Address;
+  value2: string;
+  value3: string;
+  value4: boolean;
   value5: BigInt;
+  value6: BigInt;
 
   constructor(
-    value0: Address,
-    value1: string,
-    value2: BigInt,
-    value3: boolean,
-    value4: BigInt,
-    value5: BigInt
+    value0: BigInt,
+    value1: Address,
+    value2: string,
+    value3: string,
+    value4: boolean,
+    value5: BigInt,
+    value6: BigInt
   ) {
     this.value0 = value0;
     this.value1 = value1;
@@ -232,43 +238,49 @@ export class Contract__papersResult {
     this.value3 = value3;
     this.value4 = value4;
     this.value5 = value5;
+    this.value6 = value6;
   }
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromAddress(this.value0));
-    map.set("value1", ethereum.Value.fromString(this.value1));
-    map.set("value2", ethereum.Value.fromUnsignedBigInt(this.value2));
-    map.set("value3", ethereum.Value.fromBoolean(this.value3));
-    map.set("value4", ethereum.Value.fromUnsignedBigInt(this.value4));
+    map.set("value0", ethereum.Value.fromUnsignedBigInt(this.value0));
+    map.set("value1", ethereum.Value.fromAddress(this.value1));
+    map.set("value2", ethereum.Value.fromString(this.value2));
+    map.set("value3", ethereum.Value.fromString(this.value3));
+    map.set("value4", ethereum.Value.fromBoolean(this.value4));
     map.set("value5", ethereum.Value.fromUnsignedBigInt(this.value5));
+    map.set("value6", ethereum.Value.fromUnsignedBigInt(this.value6));
     return map;
   }
 }
 
 export class Contract__getPaperResultValue0Struct extends ethereum.Tuple {
+  get tokenId(): BigInt {
+    return this[0].toBigInt();
+  }
+
   get owner(): Address {
-    return this[0].toAddress();
+    return this[1].toAddress();
   }
 
   get author(): string {
-    return this[1].toString();
+    return this[2].toString();
   }
 
-  get tokenId(): BigInt {
-    return this[2].toBigInt();
+  get tokenUri(): string {
+    return this[3].toString();
   }
 
   get allowFunding(): boolean {
-    return this[3].toBoolean();
+    return this[4].toBoolean();
   }
 
   get fundAmount(): BigInt {
-    return this[4].toBigInt();
+    return this[5].toBigInt();
   }
 
   get totalAmountFunded(): BigInt {
-    return this[5].toBigInt();
+    return this[6].toBigInt();
   }
 }
 
@@ -434,24 +446,25 @@ export class Contract extends ethereum.SmartContract {
   papers(param0: BigInt): Contract__papersResult {
     let result = super.call(
       "papers",
-      "papers(uint256):(address,string,uint256,bool,uint256,uint256)",
+      "papers(uint256):(uint256,address,string,string,bool,uint256,uint256)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
 
     return new Contract__papersResult(
-      result[0].toAddress(),
-      result[1].toString(),
-      result[2].toBigInt(),
-      result[3].toBoolean(),
-      result[4].toBigInt(),
-      result[5].toBigInt()
+      result[0].toBigInt(),
+      result[1].toAddress(),
+      result[2].toString(),
+      result[3].toString(),
+      result[4].toBoolean(),
+      result[5].toBigInt(),
+      result[6].toBigInt()
     );
   }
 
   try_papers(param0: BigInt): ethereum.CallResult<Contract__papersResult> {
     let result = super.tryCall(
       "papers",
-      "papers(uint256):(address,string,uint256,bool,uint256,uint256)",
+      "papers(uint256):(uint256,address,string,string,bool,uint256,uint256)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
     if (result.reverted) {
@@ -460,12 +473,13 @@ export class Contract extends ethereum.SmartContract {
     let value = result.value;
     return ethereum.CallResult.fromValue(
       new Contract__papersResult(
-        value[0].toAddress(),
-        value[1].toString(),
-        value[2].toBigInt(),
-        value[3].toBoolean(),
-        value[4].toBigInt(),
-        value[5].toBigInt()
+        value[0].toBigInt(),
+        value[1].toAddress(),
+        value[2].toString(),
+        value[3].toString(),
+        value[4].toBoolean(),
+        value[5].toBigInt(),
+        value[6].toBigInt()
       )
     );
   }
@@ -530,7 +544,7 @@ export class Contract extends ethereum.SmartContract {
   getPaper(paperId: BigInt): Contract__getPaperResult {
     let result = super.call(
       "getPaper",
-      "getPaper(uint256):((address,string,uint256,bool,uint256,uint256),string)",
+      "getPaper(uint256):((uint256,address,string,string,bool,uint256,uint256),string)",
       [ethereum.Value.fromUnsignedBigInt(paperId)]
     );
 
@@ -543,7 +557,7 @@ export class Contract extends ethereum.SmartContract {
   try_getPaper(paperId: BigInt): ethereum.CallResult<Contract__getPaperResult> {
     let result = super.tryCall(
       "getPaper",
-      "getPaper(uint256):((address,string,uint256,bool,uint256,uint256),string)",
+      "getPaper(uint256):((uint256,address,string,string,bool,uint256,uint256),string)",
       [ethereum.Value.fromUnsignedBigInt(paperId)]
     );
     if (result.reverted) {
