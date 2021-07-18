@@ -1,6 +1,6 @@
 specVersion: 0.0.2
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: Contract
@@ -21,7 +21,7 @@ dataSources:
         - UpdatePaper
       abis:
         - name: Contract
-          file: ./abis/Contract.json
+          file: Contract/abis/Contract.json
       eventHandlers:
         - event: Approval(indexed address,indexed address,indexed uint256)
           handler: handleApproval
@@ -35,4 +35,4 @@ dataSources:
           handler: handleTransfer
         - event: UpdatePaper(uint256,bool,uint256)
           handler: handleUpdatePaper
-      file: ./src/mapping.ts
+      file: Contract/Contract.wasm
