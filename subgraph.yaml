@@ -1,0 +1,38 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Contract
+    network: Mumbai
+    source:
+      address: "0x407DFF35AD93487c57cD030e27808591a74cd20E"
+      abi: Contract
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.2
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - ApprovalForAll
+        - Funding
+        - Published
+        - Transfer
+        - UpdatePaper
+      abis:
+        - name: Contract
+          file: ./abis/Contract.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: Funding(address,address,uint256,uint256)
+          handler: handleFunding
+        - event: Published(uint256,string,string,address,bool,uint256)
+          handler: handlePublished
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+        - event: UpdatePaper(uint256,bool,uint256)
+          handler: handleUpdatePaper
+      file: ./src/mapping.ts
