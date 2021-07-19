@@ -20,7 +20,7 @@ export function handlePublished(event: Published): void {
   // create a new instance of the paper.
   let paper = new Paper(event.params.tokenId.toHex());
 
-  // update with new parameters.
+  // set paper with the corresponding parameters.
   paper.owner = event.params.owner;
   paper.tokenUri = event.params.tokenUri;
   event.params.allowFunding == true
