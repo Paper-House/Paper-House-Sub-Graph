@@ -76,7 +76,7 @@ export function handlePublished(event: Published): void {
   (event.params.allowFunding == true)? paper.allowFunding = "true": paper.allowFunding = "false";
   paper.author = event.params.author;
   paper.fundAmount = event.params.fundAmount.toString();
-  paper.totalAmountFunded = event.params.fundAmount.toString();
+  paper.totalAmountFunded = "0";
 
   paper.save();
 }
