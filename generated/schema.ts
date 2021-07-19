@@ -9,10 +9,10 @@ import {
   Address,
   Bytes,
   BigInt,
-  BigDecimal
+  BigDecimal,
 } from "@graphprotocol/graph-ts";
 
-export class ExampleEntity extends Entity {
+export class Paper extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -20,17 +20,17 @@ export class ExampleEntity extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save ExampleEntity entity without an ID");
+    assert(id !== null, "Cannot save Paper entity without an ID");
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save ExampleEntity entity with non-string ID. " +
+      "Cannot save Paper entity with non-string ID. " +
         'Considering using .toHex() to convert the "id" to a string.'
     );
-    store.set("ExampleEntity", id.toString(), this);
+    store.set("Paper", id.toString(), this);
   }
 
-  static load(id: string): ExampleEntity | null {
-    return store.get("ExampleEntity", id) as ExampleEntity | null;
+  static load(id: string): Paper | null {
+    return store.get("Paper", id) as Paper | null;
   }
 
   get id(): string {
@@ -42,15 +42,6 @@ export class ExampleEntity extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get count(): BigInt {
-    let value = this.get("count");
-    return value.toBigInt();
-  }
-
-  set count(value: BigInt) {
-    this.set("count", Value.fromBigInt(value));
-  }
-
   get owner(): Bytes {
     let value = this.get("owner");
     return value.toBytes();
@@ -60,12 +51,48 @@ export class ExampleEntity extends Entity {
     this.set("owner", Value.fromBytes(value));
   }
 
-  get approved(): Bytes {
-    let value = this.get("approved");
-    return value.toBytes();
+  get author(): string {
+    let value = this.get("author");
+    return value.toString();
   }
 
-  set approved(value: Bytes) {
-    this.set("approved", Value.fromBytes(value));
+  set author(value: string) {
+    this.set("author", Value.fromString(value));
+  }
+
+  get tokenUri(): string {
+    let value = this.get("tokenUri");
+    return value.toString();
+  }
+
+  set tokenUri(value: string) {
+    this.set("tokenUri", Value.fromString(value));
+  }
+
+  get allowFunding(): string {
+    let value = this.get("allowFunding");
+    return value.toString();
+  }
+
+  set allowFunding(value: string) {
+    this.set("allowFunding", Value.fromString(value));
+  }
+
+  get fundAmount(): string{
+    let value = this.get("fundAmount");
+    return value.toString();
+  }
+
+  set fundAmount(value: string) {
+    this.set("fundAmount", Value.fromString(value));
+  }
+
+  get totalAmountFunded(): string {
+    let value = this.get("totalAmountFunded");
+    return value.toString();
+  }
+
+  set totalAmountFunded(value: string) {
+    this.set("totalAmountFunded", Value.fromString(value));
   }
 }
