@@ -9,11 +9,22 @@ import {
   UpdatePaper,
 } from "../generated/Contract/Contract";
 
-import { Paper } from "../generated/schema";
+import { Paper, Fundings } from "../generated/schema";
 
 export function handleApprovalForAll(event: ApprovalForAll): void {}
 
 export function handleFunding(event: Funding): void {
+    let funding = new Fundings(event.transaction.hash.toHex() + "-" + event.logIndex.toString());
+    let paper = Paper.load(event.params.paperid.toHex());
+
+    funding.paperid = event.params.paperid.toString();
+    funding.amount = event.params.amount.toString();
+    funding.to = event.params.to;
+    funding.from = event.params.from;
+    paper.totalAmountFunded = event.params.totalAmountFunded.toString();
+
+    funding.save();
+    paper.save();
 }
 
 export function handlePublished(event: Published): void {

@@ -7,3 +7,11 @@ type Paper @entity {
   fundAmount: String!
   totalAmountFunded: String!
 }
+
+type Funding @entity {
+  id: ID!
+  from: Bytes! # addres in bytes
+  to: Bytes!
+  amount: String!
+  paperid: String!
+}
