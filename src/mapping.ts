@@ -1,20 +1,20 @@
 import { BigInt, Value } from "@graphprotocol/graph-ts";
 import {
-  Contract,
+  PaperHouse,
   Approval,
   ApprovalForAll,
   Funding,
   Published,
   Transfer,
   UpdatePaper,
-} from "../generated/Contract/Contract";
+} from "../generated/PaperHouse/PaperHouse";
 
-import { Paper, Fundings } from "../generated/schema";
+import { Paper, PaperFunding } from "../generated/schema";
 
 export function handleApprovalForAll(event: ApprovalForAll): void {}
 
 export function handleFunding(event: Funding): void {
-    let funding = new Fundings(event.transaction.hash.toHex() + "-" + event.logIndex.toString());
+    let funding = new PaperFunding(event.transaction.hash.toHex() + "-" + event.logIndex.toString());
     let paper = Paper.load(event.params.paperid.toHex());
 
     funding.paperid = event.params.paperid.toString();
@@ -33,6 +33,7 @@ export function handlePublished(event: Published): void {
 
   // set paper with the corresponding parameters.
   paper.owner = event.params.owner;
+  paper.paperId = event.params.tokenId.toString();
   paper.tokenUri = event.params.tokenUri;
   event.params.allowFunding == true
     ? (paper.allowFunding = "true")

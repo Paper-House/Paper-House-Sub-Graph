@@ -3,11 +3,11 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: Contract
+    name: PaperHouse
     network: mumbai
     source:
-      address: "0x7fC940D109f0EE2391586bBeb8ec6902D5089479"
-      abi: Contract
+      address: "0x4cbAfb37e0126A8a57978B9435b8b77b73834fA9"
+      abi: PaperHouse
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -20,8 +20,8 @@ dataSources:
         - Transfer
         - UpdatePaper
       abis:
-        - name: Contract
-          file: ./abis/Contract.json
+        - name: PaperHouse
+          file: ./abis/PaperHouse.json
       eventHandlers:
         - event: Approval(indexed address,indexed address,indexed uint256)
           handler: handleApproval

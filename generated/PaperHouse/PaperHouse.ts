@@ -186,35 +186,7 @@ export class UpdatePaper__Params {
   }
 }
 
-export class Contract__donationsResult {
-  value0: Address;
-  value1: Address;
-  value2: BigInt;
-  value3: BigInt;
-
-  constructor(
-    value0: Address,
-    value1: Address,
-    value2: BigInt,
-    value3: BigInt
-  ) {
-    this.value0 = value0;
-    this.value1 = value1;
-    this.value2 = value2;
-    this.value3 = value3;
-  }
-
-  toMap(): TypedMap<string, ethereum.Value> {
-    let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromAddress(this.value0));
-    map.set("value1", ethereum.Value.fromAddress(this.value1));
-    map.set("value2", ethereum.Value.fromUnsignedBigInt(this.value2));
-    map.set("value3", ethereum.Value.fromUnsignedBigInt(this.value3));
-    return map;
-  }
-}
-
-export class Contract__papersResult {
+export class PaperHouse__papersResult {
   value0: BigInt;
   value1: Address;
   value2: string;
@@ -254,56 +226,9 @@ export class Contract__papersResult {
   }
 }
 
-export class Contract__getPaperResultValue0Struct extends ethereum.Tuple {
-  get tokenId(): BigInt {
-    return this[0].toBigInt();
-  }
-
-  get owner(): Address {
-    return this[1].toAddress();
-  }
-
-  get author(): string {
-    return this[2].toString();
-  }
-
-  get tokenUri(): string {
-    return this[3].toString();
-  }
-
-  get allowFunding(): boolean {
-    return this[4].toBoolean();
-  }
-
-  get fundAmount(): BigInt {
-    return this[5].toBigInt();
-  }
-
-  get totalAmountFunded(): BigInt {
-    return this[6].toBigInt();
-  }
-}
-
-export class Contract__getPaperResult {
-  value0: Contract__getPaperResultValue0Struct;
-  value1: string;
-
-  constructor(value0: Contract__getPaperResultValue0Struct, value1: string) {
-    this.value0 = value0;
-    this.value1 = value1;
-  }
-
-  toMap(): TypedMap<string, ethereum.Value> {
-    let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromTuple(this.value0));
-    map.set("value1", ethereum.Value.fromString(this.value1));
-    return map;
-  }
-}
-
-export class Contract extends ethereum.SmartContract {
-  static bind(address: Address): Contract {
-    return new Contract("Contract", address);
+export class PaperHouse extends ethereum.SmartContract {
+  static bind(address: Address): PaperHouse {
+    return new PaperHouse("PaperHouse", address);
   }
 
   balanceOf(owner: Address): BigInt {
@@ -323,43 +248,6 @@ export class Contract extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  donations(param0: BigInt): Contract__donationsResult {
-    let result = super.call(
-      "donations",
-      "donations(uint256):(address,address,uint256,uint256)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
-    );
-
-    return new Contract__donationsResult(
-      result[0].toAddress(),
-      result[1].toAddress(),
-      result[2].toBigInt(),
-      result[3].toBigInt()
-    );
-  }
-
-  try_donations(
-    param0: BigInt
-  ): ethereum.CallResult<Contract__donationsResult> {
-    let result = super.tryCall(
-      "donations",
-      "donations(uint256):(address,address,uint256,uint256)",
-      [ethereum.Value.fromUnsignedBigInt(param0)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(
-      new Contract__donationsResult(
-        value[0].toAddress(),
-        value[1].toAddress(),
-        value[2].toBigInt(),
-        value[3].toBigInt()
-      )
-    );
   }
 
   getApproved(tokenId: BigInt): Address {
@@ -443,14 +331,14 @@ export class Contract extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  papers(param0: BigInt): Contract__papersResult {
+  papers(param0: BigInt): PaperHouse__papersResult {
     let result = super.call(
       "papers",
       "papers(uint256):(uint256,address,string,string,bool,uint256,uint256)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
 
-    return new Contract__papersResult(
+    return new PaperHouse__papersResult(
       result[0].toBigInt(),
       result[1].toAddress(),
       result[2].toString(),
@@ -461,7 +349,7 @@ export class Contract extends ethereum.SmartContract {
     );
   }
 
-  try_papers(param0: BigInt): ethereum.CallResult<Contract__papersResult> {
+  try_papers(param0: BigInt): ethereum.CallResult<PaperHouse__papersResult> {
     let result = super.tryCall(
       "papers",
       "papers(uint256):(uint256,address,string,string,bool,uint256,uint256)",
@@ -472,7 +360,7 @@ export class Contract extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new Contract__papersResult(
+      new PaperHouse__papersResult(
         value[0].toBigInt(),
         value[1].toAddress(),
         value[2].toString(),
@@ -539,37 +427,6 @@ export class Contract extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toString());
-  }
-
-  getPaper(paperId: BigInt): Contract__getPaperResult {
-    let result = super.call(
-      "getPaper",
-      "getPaper(uint256):((uint256,address,string,string,bool,uint256,uint256),string)",
-      [ethereum.Value.fromUnsignedBigInt(paperId)]
-    );
-
-    return new Contract__getPaperResult(
-      result[0].toTuple() as Contract__getPaperResultValue0Struct,
-      result[1].toString()
-    ) as Contract__getPaperResult;
-  }
-
-  try_getPaper(paperId: BigInt): ethereum.CallResult<Contract__getPaperResult> {
-    let result = super.tryCall(
-      "getPaper",
-      "getPaper(uint256):((uint256,address,string,string,bool,uint256,uint256),string)",
-      [ethereum.Value.fromUnsignedBigInt(paperId)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(
-      new Contract__getPaperResult(
-        value[0].toTuple() as Contract__getPaperResultValue0Struct,
-        value[1].toString()
-      ) as Contract__getPaperResult
-    );
   }
 }
 

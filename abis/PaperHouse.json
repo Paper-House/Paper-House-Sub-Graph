@@ -201,19 +201,6 @@
     "constant": true
   },
   {
-    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "name": "donations",
-    "outputs": [
-      { "internalType": "address", "name": "from", "type": "address" },
-      { "internalType": "address", "name": "to", "type": "address" },
-      { "internalType": "uint256", "name": "amount", "type": "uint256" },
-      { "internalType": "uint256", "name": "paperId", "type": "uint256" }
-    ],
-    "stateMutability": "view",
-    "type": "function",
-    "constant": true
-  },
-  {
     "inputs": [
       { "internalType": "uint256", "name": "tokenId", "type": "uint256" }
     ],
@@ -365,40 +352,6 @@
     "stateMutability": "payable",
     "type": "function",
     "payable": true
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "paperId", "type": "uint256" }
-    ],
-    "name": "getPaper",
-    "outputs": [
-      {
-        "components": [
-          { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
-          { "internalType": "address", "name": "owner", "type": "address" },
-          { "internalType": "string", "name": "author", "type": "string" },
-          { "internalType": "string", "name": "tokenUri", "type": "string" },
-          { "internalType": "bool", "name": "allowFunding", "type": "bool" },
-          {
-            "internalType": "uint256",
-            "name": "fundAmount",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "totalAmountFunded",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct PaperHouse.ResearchPaper",
-        "name": "",
-        "type": "tuple"
-      },
-      { "internalType": "string", "name": "", "type": "string" }
-    ],
-    "stateMutability": "view",
-    "type": "function",
-    "constant": true
   },
   {
     "inputs": [
