@@ -9,7 +9,7 @@ import {
   Address,
   Bytes,
   BigInt,
-  BigDecimal
+  BigDecimal,
 } from "@graphprotocol/graph-ts";
 
 export class Paper extends Entity {
@@ -170,5 +170,14 @@ export class PaperFunding extends Entity {
 
   set paperid(value: string) {
     this.set("paperid", Value.fromString(value));
+  }
+
+  get tokenUri(): string {
+    let value = this.get("tokenUri");
+    return value.toString();
+  }
+
+  set tokenUri(value: string) {
+    this.set("tokenUri", Value.fromString(value));
   }
 }

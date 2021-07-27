@@ -87,7 +87,7 @@ export class Funding__Params {
     return this._event.parameters[2].value.toBigInt();
   }
 
-  get paperid(): BigInt {
+  get paperId(): BigInt {
     return this._event.parameters[3].value.toBigInt();
   }
 
@@ -109,7 +109,7 @@ export class Published__Params {
     this._event = event;
   }
 
-  get tokenId(): BigInt {
+  get paperId(): BigInt {
     return this._event.parameters[0].value.toBigInt();
   }
 
@@ -173,7 +173,7 @@ export class UpdatePaper__Params {
     this._event = event;
   }
 
-  get paperid(): BigInt {
+  get paperId(): BigInt {
     return this._event.parameters[0].value.toBigInt();
   }
 
