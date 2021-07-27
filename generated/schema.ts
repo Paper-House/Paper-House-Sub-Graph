@@ -181,3 +181,4 @@ export class PaperFunding extends Entity {
     this.set("tokenUri", Value.fromString(value));
   }
 }
+
