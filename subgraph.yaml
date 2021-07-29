@@ -6,7 +6,7 @@ dataSources:
     name: PaperHouse
     network: mumbai
     source:
-      address: "0x3E48cdcbFA783D24d85F380EbE76eA13DF835DF7"
+      address: "0xEA1aC3a3c4B29F55D1271658e8c864B40a6c68E3"
       abi: PaperHouse
     mapping:
       kind: ethereum/events

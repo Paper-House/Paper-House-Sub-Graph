@@ -62,3 +62,4 @@ export function handleUpdatePaper(event: UpdatePaper): void {
 
   paper.save();
 }
+
